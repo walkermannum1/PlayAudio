@@ -1,7 +1,6 @@
 package com.example.user.playaudio;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,11 +33,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
         try {
             File file = new File(Environment.getExternalStorageDirectory(),"music.mp3");
             mediaPlayer.setDataSource(file.getPath());
+            mediaPlayer.setOnPreparedListener(preparedListener);
+            mediaPlayer.prepareAsync();
             mediaPlayer.prepare();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {
+
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            mediaPlayer.start();
+        }
+    };
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
